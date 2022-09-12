@@ -1,6 +1,6 @@
 import createServer from './server.js'
 
-const port = process.env.PORT || 5173
+const port = process.env.PORT || 3000
 
 createServer().then((server) => {
   server.listen(port, () => {
