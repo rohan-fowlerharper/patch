@@ -1,4 +1,8 @@
-const path = require('path')
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 const defaults = {
   useNullAsDefault: true,
@@ -15,7 +19,7 @@ const defaults = {
 /**
  * @type { Object.<string, import("knex").Knex.Config> }
  */
-module.exports = {
+export default {
   development: {
     ...defaults,
     client: 'better-sqlite3',
