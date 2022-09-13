@@ -159,7 +159,7 @@ Request:
 }
 ```
 
-## Response: **201 Created**
+Response: **201 Created**
 
 ### PUT /api/v1/pets/:id/vote
 
