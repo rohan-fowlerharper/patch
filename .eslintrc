@@ -27,7 +27,7 @@
     "plugin:vitest-globals/recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:jsx-a11y/recommended",
-    "plugin:prettier/recommended"
+    "prettier"
   ],
   "plugins": ["simple-import-sort", "prettier"],
   "rules": {

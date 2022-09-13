@@ -177,7 +177,6 @@ Request:
 
 Response: **200 OK**
 
-
 ## Snippets 🐈
 
 ### Redux Thunky Action Creator (Fetch Fruits)
@@ -203,7 +202,7 @@ const fetchFruitsFailure = (error) => ({
 })
 
 const fetchFruits = () => (dispatch) => {
-  dispatch({ type: "FETCH_FRUITS_REQUEST" });
+  dispatch({ type: 'FETCH_FRUITS_REQUEST' })
   dispatch(fetchFruitsRequest())
   getFruits()
     .then((fruits) => {
@@ -261,7 +260,7 @@ async function fetchForbiddenFruits() {
     const token = await getAccessTokenSilently() // requires user to be authenticated
     setLoading(true)
     const fruits = await getForbiddenFruits(token)
-    setFruits(fruits) 
+    setFruits(fruits)
   } catch (err) {
     setError(err)
   } finally {
@@ -294,7 +293,7 @@ router.get('/', checkJwt, (req, res) => {
   // req.auth is available here
   const userId = req.auth.sub
   db.getForbiddenFruits(userId)
-    // .then(...)
-    // .catch(...)
+  // .then(...)
+  // .catch(...)
 })
 ```
