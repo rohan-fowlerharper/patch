@@ -2,21 +2,20 @@ import express from 'express'
 import path from 'path'
 import { createServer as createViteServer } from 'vite'
 
-const isDev =
-  process.env.NODE_ENV === undefined || process.env.NODE_ENV === 'development'
-
-// please don't break
-
 // use a function to create the server for async/await support
-export default async function createServer() {
+export default async function createServer(isDev, hmrPort) {
   const server = express()
 
   let vite
   if (isDev) {
     // use the vite dev server in development mode
     vite = await createViteServer({
+      root: process.cwd(),
       server: {
         middlewareMode: true,
+        hmr: {
+          port: hmrPort,
+        },
       },
     })
   } else {

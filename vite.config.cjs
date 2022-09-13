@@ -1,7 +1,9 @@
+// needs to be .cjs, there is a bug in vite with ESM
+
 /// <reference types="vitest" />
 /// <reference types="vite/client" />
-import react from '@vitejs/plugin-react'
-import { defineConfig } from 'vite'
+const react = require('@vitejs/plugin-react')
+const { defineConfig } = require('vite')
 
 // https://vitejs.dev/config/
 module.exports = defineConfig({
@@ -11,5 +13,4 @@ module.exports = defineConfig({
     globals: true,
     setupFiles: './test/setup.js',
   },
-  clearScreen: false,
 })
