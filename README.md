@@ -176,3 +176,125 @@ Request:
 ```
 
 Response: **200 OK**
+
+
+## Snippets 🐈
+
+### Redux Thunky Action Creator (Fetch Fruits)
+
+```js
+// actions/fruits.js
+const FETCH_FRUITS_REQUEST = 'FETCH_FRUITS_REQUEST'
+const FETCH_FRUITS_SUCCESS = 'FETCH_FRUITS_SUCCESS'
+const FETCH_FRUITS_FAILURE = 'FETCH_FRUITS_FAILURE'
+
+const fetchFruitsRequest = () => ({
+  type: FETCH_FRUITS_REQUEST,
+})
+
+const fetchFruitsSuccess = (fruits) => ({
+  type: FETCH_FRUITS_SUCCESS,
+  payload: fruits,
+})
+
+const fetchFruitsFailure = (error) => ({
+  type: FETCH_FRUITS_FAILURE,
+  payload: error,
+})
+
+const fetchFruits = () => (dispatch) => {
+  dispatch({ type: "FETCH_FRUITS_REQUEST" });
+  dispatch(fetchFruitsRequest())
+  getFruits()
+    .then((fruits) => {
+      dispatch(fetchFruitsSuccess(fruits))
+    })
+    .catch((error) => {
+      dispatch(fetchFruitsFailure(error))
+    })
+}
+
+// Component.jsx
+useEffect(() => {
+  dispatch(fetchFruits())
+}, [])
+```
+
+### Fetch from Component (Fetch Fruits)
+
+```js
+// Component.jsx
+const [fruits, setFruits] = useState([])
+const [loading, setLoading] = useState(true)
+const [error, setError] = useState(null)
+
+function fetchFruits() {
+  setLoading(true)
+  getFruits()
+    .then((fruits) => {
+      setFruits(fruits)
+    })
+    .catch((err) => {
+      setError(err)
+    })
+    .finally(() => {
+      setLoading(false)
+    })
+}
+
+useEffect(() => {
+  getFruits()
+})
+```
+
+### Fetch from Component with Authentication (with async/await)
+
+```js
+// Component.jsx
+const [fruits, setFruits] = useState([])
+const [loading, setLoading] = useState(true)
+const [error, setError] = useState(null)
+const { getAccessTokenSilently } = useAuth0()
+
+async function fetchForbiddenFruits() {
+  try {
+    const token = await getAccessTokenSilently() // requires user to be authenticated
+    setLoading(true)
+    const fruits = await getForbiddenFruits(token)
+    setFruits(fruits) 
+  } catch (err) {
+    setError(err)
+  } finally {
+    setLoading(false)
+  }
+}
+
+useEffect(() => {
+  fetchForbiddenFruits()
+}, [])
+```
+
+### Set Authorization Header for API Requests (with .then())
+
+```js
+// api/fruits.js
+function getForbiddenFruits(token) {
+  return request
+    .get('/api/v1/fruits')
+    .set('Authorization', `Bearer ${token}`)
+    .then((res) => res.body)
+}
+```
+
+### Check for Authentication (server-side)
+
+```js
+// server/routes/fruits.router.js
+router.get('/', checkJwt, (req, res) => {
+  // req.auth is available here
+  const userId = req.auth.sub
+  db.getForbiddenFruits(userId)
+    // .then(...)
+    // .catch(...)
+})
+```
